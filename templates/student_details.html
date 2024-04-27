@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/student_details_style.css') }}">
+    <title>Student Details</title>
+    
+</head>
+<body>
+    <h1>Student Details</h1>
+    {% if student %}
+    <div class="student-details">
+        <ul>
+            <li><strong>ID:</strong> {{ student.id }}</li>
+            <li><strong>First Name:</strong> {{ student.first_name }}</li>
+            <li><strong>Last Name:</strong> {{ student.last_name }}</li>
+            <li><strong>Email:</strong> {{ student.email }}</li>
+            <li><strong>Mobile Number:</strong> {{ student.mobile_number }}</li>
+            <li><strong>Location:</strong> {{ student.location }}</li>
+            <li><strong>Image:</strong> <img src="{{ url_for('static', filename='images/' + student.image) }}" alt="Student Image"></li>
+        </ul>
+    </div>
+    {% else %}
+    <p>No student details found.</p>
+    {% endif %}
+    <a class="back-link" href="/">Back to Home</a>
+</body>
+</html>

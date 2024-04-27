@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Student</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/search_style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="heading">Search Student</h1>
+        <form class="search-form" action="/search" method="post">
+            <label for="student_id" class="label">Enter Student ID:</label>
+            <input type="text" name="student_id" id="student_id" class="input-field" required><br>
+            <input type="submit" value="Search" class="submit-button">
+        </form>
+        <a href="/" class="back-link">Back to Home</a>
+    </div>
+</body>
+
+</html>

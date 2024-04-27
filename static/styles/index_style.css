@@ -1,0 +1,116 @@
+   /* Center the form */
+   .centered-form {
+    background-image: url("/static/background.jpg");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* background-color: #333; */
+    /* Dark gray background */
+}
+
+/* Form container */
+.form-container {
+    width: 400px;
+    padding: 20px;
+    background-color: rgba(68, 62, 48, 0.827);
+    /* White background for the form */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Form styles */
+#studentForm {
+    color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Form field styles */
+label {
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+select,
+button,
+input[type="file"] {
+    background-color: rgba(103, 99, 89, 0.827);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #bdbbb8;
+    /* Gray border */
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+/* Field hover effect */
+input[type="text"]:hover,
+input[type="email"]:hover,
+input[type="tel"]:hover,
+select:hover,
+button:hover,
+input[type="file"]:hover {
+    background-color: #a9a1a1;
+    /* Light gray background on hover */
+}
+
+/* Image option container */
+#uploadImageOption,
+#captureImageOption {
+    margin-top: 10px;
+}
+
+/* Hide captured image container by default */
+#capturedImageContainer {
+    display: none;
+}
+
+/* Search button */
+.search-button {
+    display: block;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    margin-top: 20px;
+    text-decoration: none;
+    padding: 10px 20px;
+    background-color: rgba(185, 171, 125, 0.827);
+    /* Blue color */
+    border-radius: 5px;
+}
+
+.search-button:hover {
+    background-color: #a78e6c;
+    /* Darker blue color on hover */
+}
+
+/* Background image */
+body {
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+::placeholder {
+    color: #a7a7a7; /* Placeholder text color */
+}
+option {
+    color: white; /* Text color of options */
+    
+}
+
+.submit-btn{
+    display: block;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    margin-top: 20px;
+    text-decoration: none;
+    padding: 10px 20px;
+    background-color: rgba(121, 162, 122, 0.827);
+    /* Blue color */
+    border-radius: 5px;
+}

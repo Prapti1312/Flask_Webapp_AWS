@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/index_style.css') }}">
+    <title>Registration Form</title>
+
+</head>
+
+<body>
+    <div class="centered-form">
+        <div class="form-container">
+            <h1 style="color: rgb(255, 255, 255); text-align: center;">Registration Form</h1> <!-- Added title -->
+            <form id="studentForm" action="/submit" method="post" enctype="multipart/form-data">
+                <label for="first_name">First Name:</label>
+                <input type="text" name="first_name" placeholder="Enter your first name" required>
+
+                <label for="last_name">Last Name:</label>
+                <input type="text" name="last_name" placeholder="Enter your last name" required>
+
+                <label for="email">Email:</label>
+                <input type="email" name="email" placeholder="Enter a valid email-id here" required>
+
+
+                <label for="mobile_number">Mobile Number:</label>
+                <input type="tel" name="mobile_number" pattern="[0-9]{10}"
+                    placeholder="Please enter a 10-digit mobile number" required>
+
+                <label for="location">Location:</label>
+                <input type="text" name="location" placeholder="Enter your location" required>
+
+
+                <label for="imageOption">Choose Image Option:</label>
+                <select id="imageOption" name="imageOption"> <!-- Added name attribute -->
+                    <option value="upload">Upload Image</option>
+                    <option value="capture">Capture Image</option>
+                </select>
+
+                <div id="uploadImageOption">
+                    <label for="image">Upload Image:</label>
+                    <input type="file" id="image" name="image" accept="image/*" onchange="previewImage(event)">
+                    <div id="image-preview"></div>
+                </div>
+
+                <div id="captureImageOption" style="display: none;">
+                    <label for="capture">Capture Image:</label>
+                    <video id="video" width="400" height="300" autoplay></video>
+                    <button type="button" id="captureButton">Capture</button>
+                    <canvas id="canvas" style="display: none;"></canvas>
+                    <div id="capturedImageContainer">
+                        <img id="capturedImage" width="200">
+                    </div>
+                </div>
+
+                <input class="submit-btn" type="submit" value="Submit">
+            </form>
+
+            <a href="/search" class="search-button">Search Students</a>
+        </div>
+    </div>
+
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const captureButton = document.getElementById('captureButton');
+        const studentForm = document.getElementById('studentForm');
+        const capturedImageContainer = document.getElementById('capturedImageContainer');
+        const capturedImage = document.getElementById('capturedImage');
+        const imageOption = document.getElementById('imageOption');
+        const uploadImageOption = document.getElementById('uploadImageOption');
+        const captureImageOption = document.getElementById('captureImageOption');
+
+        // Toggle image options based on user selection
+        imageOption.addEventListener('change', () => {
+            if (imageOption.value === 'upload') {
+                uploadImageOption.style.display = 'block';
+                captureImageOption.style.display = 'none';
+                capturedImageContainer.style.display = 'none'; // Hide captured image container if upload option is selected
+                // Hide video and captured image if present
+                video.style.display = 'none';
+                capturedImageContainer.style.display = 'none';
+            } else if (imageOption.value === 'capture') {
+                uploadImageOption.style.display = 'none';
+                captureImageOption.style.display = 'block';
+                if (capturedImage.src) {
+                    capturedImageContainer.style.display = 'block'; // Show captured image container if capture option is selected and an image is already captured
+                }
+
+                // Show video
+                video.style.display = 'block';
+
+                // Access the camera and stream it to the video element
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(stream => {
+                        video.srcObject = stream;
+                    })
+                    .catch(err => {
+                        console.error('Error accessing camera:', err);
+                    });
+            }
+        });
+
+        // Capture image from video stream and display it on canvas
+        captureButton.addEventListener('click', () => {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imgData = canvas.toDataURL('image/png');
+
+            // Set the captured image data as the value of a hidden input field
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'capturedImage';
+            hiddenInput.value = imgData;
+            studentForm.appendChild(hiddenInput);
+
+            // Display the captured image
+            capturedImage.src = imgData;
+            capturedImageContainer.style.display = 'block';
+        });
+
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var output = document.getElementById('image-preview');
+                output.innerHTML = '<img src="' + reader.result + '" style="max-width: 200px;">';
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        // Message after successful submission
+        studentForm.addEventListener('submit', function (event) {
+            alert('Registered successfully!');
+        });
+    </script>
+</body>
+
+</html>
