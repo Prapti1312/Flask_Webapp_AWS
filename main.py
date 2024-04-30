@@ -21,27 +21,27 @@ rds_params = {
 output = {}
 table = 'registration_table'
 
-# db_conn = establish_connection(rds_params)
+db_conn = establish_connection(rds_params)
 
 
 last_id = 0
 
-# def generate_sid():
+def generate_sid():
 
-#     cursor = db_conn.cursor()
+    cursor = db_conn.cursor()
 
-#     try:
-#         # Get the last row index and increment
-#         cursor.execute("SELECT MAX(row_index) FROM registration_table")
-#         last_row_index = cursor.fetchone()[0]
-#         print("This is the last record",last_row_index)
-#         next_row_index = last_row_index + 1 if last_row_index is not None else 1
-#         # Generate the sid
-#         sid = f"sid_{next_row_index}"
-#         print("sid is:",sid)
-#         return sid
-#     finally:
-#         cursor.close()
+    try:
+        # Get the last row index and increment
+        cursor.execute("SELECT MAX(row_index) FROM registration_table")
+        last_row_index = cursor.fetchone()[0]
+        print("This is the last record",last_row_index)
+        next_row_index = last_row_index + 1 if last_row_index is not None else 1
+        # Generate the sid
+        sid = f"sid_{next_row_index}"
+        print("sid is:",sid)
+        return sid
+    finally:
+        cursor.close()
 
 
 @app.route('/')
@@ -50,77 +50,77 @@ def index():
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    # try:
-    #     # Retrieve form data
-    #     first_name = request.form['first_name']
-    #     last_name = request.form['last_name']
-    #     email = request.form['email']
-    #     mobile_number = request.form['mobile_number']
-    #     location = request.form['location']
-    #     image_option = request.form['imageOption']
+    try:
+        # Retrieve form data
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        email = request.form['email']
+        mobile_number = request.form['mobile_number']
+        location = request.form['location']
+        image_option = request.form['imageOption']
 
-    #     # Generate unique ID
-    #     sid = generate_sid()
+        # Generate unique ID
+        sid = generate_sid()
 
-    #     # Check if the image is uploaded or captured
-    #     if image_option == 'upload':
-    #         image = request.files['image']
+        # Check if the image is uploaded or captured
+        if image_option == 'upload':
+            image = request.files['image']
             
-    #     elif image_option == 'capture':
-    #         image = request.form['capturedImage']
-    #         image = image.split(',')[1]
+        elif image_option == 'capture':
+            image = request.form['capturedImage']
+            image = image.split(',')[1]
             
 
-    #     insert_sql = "INSERT INTO registration_table (sid, first_name, last_name, email, mobile_number, location) VALUES (%s, %s, %s, %s, %s, %s)"
-    #     with db_conn.cursor() as cursor:
-    #         # Insert data extracted from the registration form into RDS
-    #         cursor.execute(insert_sql, (sid, first_name, last_name, email, mobile_number, location))
-    #         db_conn.commit()
+        insert_sql = "INSERT INTO registration_table (sid, first_name, last_name, email, mobile_number, location) VALUES (%s, %s, %s, %s, %s, %s)"
+        with db_conn.cursor() as cursor:
+            # Insert data extracted from the registration form into RDS
+            cursor.execute(insert_sql, (sid, first_name, last_name, email, mobile_number, location))
+            db_conn.commit()
 
-    #         # Insert sid into attendance_table
-    #         insert_attendance_sql = "INSERT INTO attendance_table (sid) VALUES (%s)"
-    #         cursor.execute(insert_attendance_sql, (sid,))
-    #         db_conn.commit()
+            # Insert sid into attendance_table
+            insert_attendance_sql = "INSERT INTO attendance_table (sid) VALUES (%s)"
+            cursor.execute(insert_attendance_sql, (sid,))
+            db_conn.commit()
 
-    #         # Logic for image filename to be uploaded in S3
-    #         s3_image_filename = sid + '.jpg'
-    #         s3 = boto3.resource('s3')
+            # Logic for image filename to be uploaded in S3
+            s3_image_filename = sid + '.jpg'
+            s3 = boto3.resource('s3')
 
-    #         try:
-    #             print("Data inserted in MySQL RDS... uploading image to S3...")
-    #             # Upload image file in S3
-    #             s3.Bucket(s3_bucket).put_object(Key=s3_image_filename, Body=image)
-    #             bucket_location = boto3.client('s3').get_bucket_location(Bucket=s3_bucket)
-    #             s3_location = (bucket_location['LocationConstraint'])
+            try:
+                print("Data inserted in MySQL RDS... uploading image to S3...")
+                # Upload image file in S3
+                s3.Bucket(s3_bucket).put_object(Key=s3_image_filename, Body=image)
+                bucket_location = boto3.client('s3').get_bucket_location(Bucket=s3_bucket)
+                s3_location = (bucket_location['LocationConstraint'])
 
-    #             if s3_location is None:
-    #                 s3_location = ''
-    #             else:
-    #                 s3_location = '-' + s3_location
+                if s3_location is None:
+                    s3_location = ''
+                else:
+                    s3_location = '-' + s3_location
 
-    #             object_url = "https://s3{0}.amazonaws.com/{1}/{2}".format(
-    #                 s3_location,
-    #                 s3_bucket,
-    #                 s3_image_filename)
+                object_url = "https://s3{0}.amazonaws.com/{1}/{2}".format(
+                    s3_location,
+                    s3_bucket,
+                    s3_image_filename)
 
-    #             # Save image file metadata in DynamoDB
-    #             print("Uploading to S3 success... saving metadata in DynamoDB...")
-    #             dynamodb_client = boto3.client('dynamodb', region_name=aws_region)
-    #             dynamodb_client.put_item(
-    #                 TableName='student_image_table',
-    #                 Item={
-    #                     'sid': {'S': sid},
-    #                     'image_url': {'S': object_url}
-    #                 }
-    #             )
+                # Save image file metadata in DynamoDB
+                print("Uploading to S3 success... saving metadata in DynamoDB...")
+                dynamodb_client = boto3.client('dynamodb', region_name=aws_region)
+                dynamodb_client.put_item(
+                    TableName='student_image_table',
+                    Item={
+                        'sid': {'S': sid},
+                        'image_url': {'S': object_url}
+                    }
+                )
 
-    #         except Exception as e:
-    #             return str(e)
+            except Exception as e:
+                return str(e)
 
-    # except Exception as e:
-    #     return str(e)
+    except Exception as e:
+        return str(e)
 
-    # print("All modifications done...")
+    print("All modifications done...")
     return redirect(url_for('index'))
 
 
