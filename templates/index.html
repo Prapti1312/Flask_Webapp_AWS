@@ -23,24 +23,21 @@
                 <label for="email">Email:</label>
                 <input type="email" name="email" placeholder="Enter a valid email-id here" required>
 
-
                 <label for="mobile_number">Mobile Number:</label>
-                <input type="tel" name="mobile_number" pattern="[0-9]{10}"
-                    placeholder="Please enter a 10-digit mobile number" required>
+                <input type="tel" name="mobile_number" pattern="[0-9]{10}" placeholder="Please enter a 10-digit mobile number" required>
 
                 <label for="location">Location:</label>
                 <input type="text" name="location" placeholder="Enter your location" required>
 
-
                 <label for="imageOption">Choose Image Option:</label>
-                <select id="imageOption" name="imageOption"> <!-- Added name attribute -->
+                <select id="imageOption" name="imageOption">
                     <option value="upload">Upload Image</option>
                     <option value="capture">Capture Image</option>
                 </select>
 
                 <div id="uploadImageOption">
                     <label for="image">Upload Image:</label>
-                    <input type="file" id="image" name="image" accept="image/*" onchange="previewImage(event)">
+                    <input type="file" id="image" name="image" accept="image/*" onchange="previewImage(event)" required>
                     <div id="image-preview"></div>
                 </div>
 

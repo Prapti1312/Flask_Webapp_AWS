@@ -1,14 +1,13 @@
-   /* Center the form */
-   .centered-form {
-    background-image: url("/static/background.jpg");
+/* Center the form */
+.centered-form {
+    
     background-size: cover;
     background-position: center;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    /* background-color: #333; */
-    /* Dark gray background */
+    border: 5px solid 79967a
 }
 
 /* Form container */
@@ -16,9 +15,9 @@
     width: 400px;
     padding: 20px;
     background-color: rgba(68, 62, 48, 0.827);
-    /* White background for the form */
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 5px solid #f10909; /* Added border to form container */
 }
 
 /* Form styles */
@@ -26,6 +25,7 @@
     color: #f0f0f0;
     display: flex;
     flex-direction: column;
+    border: 5px solid #fac413; /* Added border to form */
 }
 
 /* Form field styles */
@@ -42,8 +42,7 @@ input[type="file"] {
     background-color: rgba(103, 99, 89, 0.827);
     padding: 10px;
     margin-bottom: 10px;
-    border: 1px solid #bdbbb8;
-    /* Gray border */
+    border: 5px solid #63e40d; /* Added border to form fields */
     border-radius: 5px;
     transition: background-color 0.3s ease;
 }
@@ -56,7 +55,6 @@ select:hover,
 button:hover,
 input[type="file"]:hover {
     background-color: #a9a1a1;
-    /* Light gray background on hover */
 }
 
 /* Image option container */
@@ -79,28 +77,39 @@ input[type="file"]:hover {
     text-decoration: none;
     padding: 10px 20px;
     background-color: rgba(185, 171, 125, 0.827);
-    /* Blue color */
     border-radius: 5px;
+    border: 5px solid #05a8c9; /* Added border to search button */
 }
 
 .search-button:hover {
     background-color: #a78e6c;
-    /* Darker blue color on hover */
 }
 
 /* Background image */
-body {
-    background-image: url('background.jpg');
+
+html,body {
+     /* background-image: url('background.jpg'); */
     background-size: cover;
     background-position: center;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 5px solid #8c6ce4;
+}
+
+.outer-div{
+    /* sbackground-image: url("/static/background.jpg"); */
+    width: 80%;
+    height: 80%;
+    border: 5px solid #fa6b05;
 }
 
 ::placeholder {
-    color: #a7a7a7; /* Placeholder text color */
+    color: #a7a7a7;
 }
+
 option {
-    color: white; /* Text color of options */
-    
+    color: white;
 }
 
 .submit-btn{
@@ -111,6 +120,6 @@ option {
     text-decoration: none;
     padding: 10px 20px;
     background-color: rgba(121, 162, 122, 0.827);
-    /* Blue color */
     border-radius: 5px;
+    border: 5px solid #b615c5; /* Added border to submit button */
 }
